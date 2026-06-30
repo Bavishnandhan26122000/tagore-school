@@ -11,20 +11,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Brand */}
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="relative h-10 w-10 bg-white rounded-md overflow-hidden flex items-center justify-center shrink-0">
-              <Image
-                src="/images/logo-textprimary.png"
-                alt="Tagore Logo"
-                fill
-                className="object-contain p-1"
-                sizes="40px"
-              />
-            </div>
-            <div>
-              <div className="font-bold text-base leading-tight">Tagore Educational</div>
-              <div className="text-[#D4AF37] text-xs font-sans tracking-wide uppercase">Institutions</div>
-            </div>
+          <div className="mb-4">
+            <Image
+              src="/images/logo-textprimary.png"
+              alt="Tagore Educational Institutions"
+              width={347}
+              height={112}
+              className="h-12 w-auto"
+            />
           </div>
           <p className="text-gray-400 text-sm font-sans leading-relaxed mb-4">
             Run by the {SITE.society}. Providing quality education since {SITE.founded}.

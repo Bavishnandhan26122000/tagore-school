@@ -111,25 +111,16 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 
-          {/* Logo — fixed-width rectangle, no circle crop */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <div className="relative h-9 w-9 bg-white rounded-md overflow-hidden flex items-center justify-center">
-              <Image
-                src="/images/logo-textprimary.png"
-                alt="Tagore Logo"
-                fill
-                className="object-contain p-1"
-                sizes="36px"
-              />
-            </div>
-            <div className="leading-none">
-              <div className="text-white font-bold text-sm leading-tight">
-                Tagore Educational
-              </div>
-              <div className="text-[#D4AF37] text-[10px] font-sans tracking-widest uppercase mt-0.5">
-                Institutions
-              </div>
-            </div>
+          {/* Logo — full white logo (portrait + name) at natural ratio on navy */}
+          <Link href="/" className="flex items-center shrink-0" aria-label="Tagore Educational Institutions — Home">
+            <Image
+              src="/images/logo-textprimary.png"
+              alt="Tagore Educational Institutions"
+              width={347}
+              height={112}
+              priority
+              className="h-11 w-auto"
+            />
           </Link>
 
           {/* Desktop nav */}
