@@ -4,13 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { NAV_LINKS, SITE } from '@/lib/data';
+import { NAV_LINKS, SITE, type NavLinkDef } from '@/lib/data';
 
-type NavLink = {
-  label: string;
-  href: string;
-  children?: { label: string; href: string }[];
-};
+type NavLink = NavLinkDef;
 
 // A top-level nav item is active when the current path is, or is nested under,
 // its href. Home ("/") only matches exactly so it isn't active everywhere.
@@ -218,17 +214,33 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden bg-[#122852] border-t border-[#2451A0] px-4 py-3 space-y-1">
+          <div className="lg:hidden bg-[#122852] border-t border-[#2451A0] px-4 py-4 space-y-3">
+            
+            {/* Extremely prominent mobile contact bar */}
+            <div className="bg-white/10 rounded-lg p-4 mb-4 flex flex-col gap-2">
+              <span className="text-gray-300 text-xs uppercase tracking-wider font-bold">Contact School</span>
+              <a href={`tel:${SITE.phone.replace(/\\s/g, '')}`} className="text-[#D4AF37] font-bold text-lg flex items-center gap-2">
+                📞 {SITE.phone}
+              </a>
+              <a href={`mailto:${SITE.email}`} className="text-white text-sm flex items-center gap-2">
+                ✉ {SITE.email}
+              </a>
+            </div>
+
             {(NAV_LINKS as NavLink[]).map((link) => (
-              <div key={link.href}>
+              <div key={link.href} className="border-b border-white/5 pb-2">
                 <div className="flex items-center justify-between">
                   <Link
                     href={link.href}
-                    className={`block py-2 font-sans text-sm font-medium ${isActive(pathname, link.href) ? 'text-[#D4AF37]' : 'text-white hover:text-[#D4AF37]'
+                    className={`flex items-center gap-3 py-3 font-sans ${isActive(pathname, link.href) ? 'text-[#D4AF37]' : 'text-white hover:text-[#D4AF37]'
                       }`}
                     onClick={() => !link.children && setMobileOpen(false)}
                   >
-                    {link.label}
+                    {link.icon && <span className="text-xl">{link.icon}</span>}
+                    <div>
+                      <div className="text-base font-medium">{link.label}</div>
+                      {link.subtitle && <div className="text-xs text-gray-400 font-normal">{link.subtitle}</div>}
+                    </div>
                   </Link>
                   {link.children && (
                     <button
@@ -245,16 +257,16 @@ export default function Navbar() {
                   )}
                 </div>
                 {link.children && mobileExpanded === link.label && (
-                  <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-[#D4AF37]/40 pl-2">
+                  <div className="ml-10 mt-1 space-y-1 border-l-2 border-[#D4AF37]/40 pl-3">
                     {link.children.map((child) => {
                       const active = pathname === child.href;
                       return (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className={`block rounded-md px-3 py-2 text-sm font-sans transition-colors ${
+                          className={`block rounded-md px-3 py-3 text-base font-sans transition-colors ${
                             active
-                              ? 'bg-[#D4AF37] text-[#1B3A6B] font-semibold'
+                              ? 'bg-[#D4AF37] text-[#1B3A6B] font-bold'
                               : 'text-gray-300 hover:bg-white/10 hover:text-[#D4AF37]'
                           }`}
                           onClick={() => setMobileOpen(false)}
@@ -269,7 +281,7 @@ export default function Navbar() {
             ))}
             <Link
               href="/admissions"
-              className="block mt-3 px-4 py-2.5 bg-[#D4AF37] text-[#1B3A6B] text-sm font-bold font-sans rounded text-center"
+              className="block mt-4 px-4 py-4 bg-[#D4AF37] text-[#1B3A6B] text-base font-bold font-sans rounded-lg text-center"
               onClick={() => setMobileOpen(false)}
             >
               Apply Now

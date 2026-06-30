@@ -326,11 +326,21 @@ export const HERO_SLIDES = [
   },
 ];
 
-export const NAV_LINKS = [
-  { label: "Home", href: "/" },
+export type NavLinkDef = {
+  label: string;
+  href: string;
+  icon?: string;
+  subtitle?: string;
+  children?: { label: string; href: string }[];
+};
+
+export const NAV_LINKS: NavLinkDef[] = [
+  { label: "Home", href: "/", icon: "🏠" },
   {
     label: "About",
     href: "/about",
+    icon: "ℹ️",
+    subtitle: "Our story & leaders",
     children: [
       { label: "About Us", href: "/about" },
       { label: "Our History", href: "/about/history" },
@@ -341,6 +351,8 @@ export const NAV_LINKS = [
   {
     label: "Institutions",
     href: "/institutions",
+    icon: "🏫",
+    subtitle: "Explore our 5 schools",
     children: [
       { label: "All Institutions", href: "/institutions" },
       { label: "Matric School", href: "/institutions/matric-school" },
@@ -353,25 +365,49 @@ export const NAV_LINKS = [
   {
     label: "Campus Life",
     href: "/campus-life",
+    icon: "⚽",
+    subtitle: "Facilities & Rules",
     children: [
       { label: "Academics", href: "/campus-life/academics" },
       { label: "Facilities", href: "/campus-life/facilities" },
       { label: "Sports", href: "/campus-life/sports" },
-      { label: "Achievements", href: "/campus-life/achievements" },
+      { label: "Achievements", href: "/achievements" },
       { label: "Events", href: "/campus-life/events" },
     ],
   },
-  { label: "Admissions", href: "/admissions" },
-  { label: "Announcements", href: "/announcements" },
+  { 
+    label: "Admissions", 
+    href: "/admissions", 
+    icon: "📝",
+    subtitle: "How to join" 
+  },
+  { 
+    label: "Announcements", 
+    href: "/announcements", 
+    icon: "📢",
+    subtitle: "Latest news" 
+  },
+  {
+    label: "Achievements",
+    href: "/achievements",
+    icon: "🏆",
+    subtitle: "Top performers",
+  },
   {
     label: "Gallery",
     href: "/gallery",
+    icon: "📷",
+    subtitle: "Photos & awards",
     children: [
       { label: "Photo Gallery", href: "/gallery" },
-      { label: "Student Achievements", href: "/gallery/achievements" },
     ],
   },
-  { label: "Contact", href: "/contact" },
+  { 
+    label: "Contact", 
+    href: "/contact", 
+    icon: "📞",
+    subtitle: "Get in touch" 
+  },
 ];
 
 // ---- Announcements / Notices board ----
@@ -421,7 +457,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     date: "2026-06-26",
     body: "Congratulations to our Class XII students on an outstanding 100% pass percentage, with 38 students scoring above 90% and 6 centum scores across subjects. Individual mark statements may be collected from the respective school offices.",
     pinned: true,
-    link: { label: "View Toppers List", href: "/campus-life/achievements" },
+    link: { label: "View Toppers List", href: "/achievements" },
   },
   {
     id: "class-10-results-2026",
@@ -429,7 +465,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     title: "Class X Public Exam Results — March 2026",
     date: "2026-06-24",
     body: "Our Class X students recorded a 100% pass percentage for the 14th consecutive year. We thank our students, parents, and teachers for their dedication and hard work throughout the year.",
-    link: { label: "View Achievements", href: "/campus-life/achievements" },
+    link: { label: "View Achievements", href: "/achievements" },
   },
   {
     id: "reopening-2026-27",

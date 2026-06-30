@@ -139,3 +139,39 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- Ken Burns Effect ---- */
+@keyframes ken-burns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.animate-ken-burns {
+  animation: ken-burns 15s ease-out forwards;
+}
+
+/* ---- Marquee & Ticker Effects ---- */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-scroll 25s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-slide {
+  0%, 15% { transform: translateY(0); }
+  20%, 35% { transform: translateY(-100%); }
+  40%, 55% { transform: translateY(-200%); }
+  60%, 75% { transform: translateY(-300%); }
+  80%, 95% { transform: translateY(-400%); }
+  100% { transform: translateY(-500%); }
+}
+.animate-ticker {
+  animation: ticker-slide 25s ease-in-out infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}

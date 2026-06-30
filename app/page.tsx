@@ -4,6 +4,7 @@ import HeroSlider from '@/components/HeroSlider';
 import { Reveal, RevealGroup } from '@/components/Reveal';
 import Counter from '@/components/Counter';
 import AnnouncementsPreview from '@/components/AnnouncementsPreview';
+import InstitutionsMarquee from '@/components/InstitutionsMarquee';
 import { INSTITUTIONS, SITE, WHY_CHOOSE, TAGORE_ACRONYM } from '@/lib/data';
 
 function StatCard({ value, label }: { value: string; label: string }) {
@@ -46,17 +47,17 @@ function InstitutionCard({ inst }: { inst: typeof INSTITUTIONS[number] }) {
         <h3 className="text-[#1B3A6B] font-bold text-base leading-snug mb-2 group-hover:text-[#D4AF37] transition-colors duration-200">
           {inst.name}
         </h3>
-        <p className="text-gray-500 text-sm font-sans leading-relaxed line-clamp-3 mb-4">
+        <p className="text-gray-500 text-base font-sans leading-relaxed line-clamp-3 mb-4">
           {inst.description}
         </p>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {inst.programs.slice(0, 2).map((p) => (
-            <span key={p} className="text-xs font-sans bg-[#1B3A6B]/8 text-[#1B3A6B] px-2 py-0.5 rounded-full">
+            <span key={p} className="text-sm font-sans bg-[#1B3A6B]/8 text-[#1B3A6B] px-3 py-1 rounded-full">
               {p}
             </span>
           ))}
         </div>
-        <div className="flex items-center text-[#D4AF37] text-sm font-sans font-medium group-hover:gap-2 transition-all gap-1">
+        <div className="flex items-center text-[#D4AF37] text-base font-sans font-medium group-hover:gap-2 transition-all gap-1">
           Learn More
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -71,6 +72,21 @@ export default function HomePage() {
   return (
     <>
       <HeroSlider />
+
+      {/* Permanent Static Apply Banner */}
+      <section className="bg-[#D4AF37] py-4 border-b-4 border-[#1B3A6B]">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-[#1B3A6B] font-bold text-lg md:text-xl font-sans text-center sm:text-left flex items-center gap-2">
+            <span className="text-2xl">🎓</span> Admissions Open for 2026-27
+          </div>
+          <Link
+            href="/admissions"
+            className="px-8 py-3 bg-[#1B3A6B] text-white font-bold font-sans rounded-lg shadow-md hover:bg-[#122852] transition-colors w-full sm:w-auto text-center text-lg"
+          >
+            Apply Now
+          </Link>
+        </div>
+      </section>
 
       {/* Stats bar */}
       <section className="bg-[#1B3A6B] py-10">
@@ -132,7 +148,8 @@ export default function HomePage() {
 
       {/* Institutions grid */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+        <InstitutionsMarquee />
+        <div className="max-w-7xl mx-auto px-6 mt-16">
           <Reveal className="text-center mb-12">
             <p className="text-[#D4AF37] font-sans uppercase text-xs tracking-widest font-semibold mb-3">
               Five Institutions
@@ -157,7 +174,7 @@ export default function HomePage() {
                 </svg>
               </div>
               <h3 className="font-bold text-lg mb-2">View All Institutions</h3>
-              <p className="text-gray-300 font-sans text-sm">Compare programmes, affiliations, and facilities across all five campuses.</p>
+              <p className="text-gray-300 font-sans text-base">Compare programmes, affiliations, and facilities across all five campuses.</p>
             </Link>
           </RevealGroup>
         </div>
@@ -188,7 +205,7 @@ export default function HomePage() {
               >
                 <div className="text-3xl mb-4">{item.icon}</div>
                 <h3 className="text-white font-bold text-base mb-3">{item.title}</h3>
-                <p className="text-gray-400 text-sm font-sans leading-relaxed">{item.description}</p>
+                <p className="text-gray-400 text-base font-sans leading-relaxed">{item.description}</p>
               </div>
             ))}
           </RevealGroup>

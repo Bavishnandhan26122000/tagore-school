@@ -21,10 +21,10 @@ export default function Footer() {
               loading="lazy"
             />
           </div>
-          <p className="text-gray-400 text-sm font-sans leading-relaxed mb-4">
+          <p className="text-gray-400 text-base font-sans leading-relaxed mb-4">
             Run by the {SITE.society}. Providing quality education since {SITE.founded}.
           </p>
-          <p className="text-[#D4AF37] text-sm font-sans italic">&ldquo;{SITE.tagline}&rdquo;</p>
+          <p className="text-[#D4AF37] text-base font-sans italic">&ldquo;{SITE.tagline}&rdquo;</p>
         </div>
 
         {/* Institutions */}
@@ -37,7 +37,7 @@ export default function Footer() {
               <li key={inst.id}>
                 <Link
                   href={inst.href}
-                  className="text-gray-300 text-sm font-sans hover:text-[#D4AF37] transition-colors duration-150"
+                  className="text-gray-300 text-base font-sans hover:text-[#D4AF37] transition-colors duration-150"
                 >
                   {inst.shortName}
                 </Link>
@@ -56,7 +56,7 @@ export default function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-gray-300 text-sm font-sans hover:text-[#D4AF37] transition-colors duration-150"
+                  className="text-gray-300 text-base font-sans hover:text-[#D4AF37] transition-colors duration-150"
                 >
                   {link.label}
                 </Link>
@@ -70,7 +70,7 @@ export default function Footer() {
           <h4 className="text-[#D4AF37] font-bold font-sans uppercase text-xs tracking-widest mb-4">
             Contact Us
           </h4>
-          <ul className="space-y-3 text-sm font-sans text-gray-300">
+          <ul className="space-y-3 text-base font-sans text-gray-300">
             <li className="flex gap-2">
               <span className="mt-0.5">📍</span>
               <span>{SITE.location}</span>
@@ -94,7 +94,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[#1B3A6B] py-5 text-center text-gray-500 text-xs font-sans">
+      <div className="border-t border-[#1B3A6B] py-5 text-center text-gray-500 text-sm font-sans">
         © {new Date().getFullYear()} {SITE.name}. All Rights Reserved.
       </div>
     </footer>

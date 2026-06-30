@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
+import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import { SITE } from '@/lib/data';
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`h-full antialiased ${roboto.variable}`}>
       <body className="min-h-screen flex flex-col bg-white">
         <Navbar />
+        <NewsTicker />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
