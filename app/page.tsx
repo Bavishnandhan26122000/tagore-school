@@ -71,6 +71,7 @@ function InstitutionCard({ inst }: { inst: typeof INSTITUTIONS[number] }) {
 export default function HomePage() {
   return (
     <>
+      <InstitutionsMarquee />
       <HeroSlider />
 
       {/* Permanent Static Apply Banner */}
@@ -148,8 +149,7 @@ export default function HomePage() {
 
       {/* Institutions grid */}
       <section className="py-20 bg-white">
-        <InstitutionsMarquee />
-        <div className="max-w-7xl mx-auto px-6 mt-16">
+        <div className="max-w-7xl mx-auto px-6">
           <Reveal className="text-center mb-12">
             <p className="text-[#D4AF37] font-sans uppercase text-xs tracking-widest font-semibold mb-3">
               Five Institutions
