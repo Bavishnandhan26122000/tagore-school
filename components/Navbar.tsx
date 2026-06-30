@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { NAV_LINKS, SITE } from '@/lib/data';
 
 type NavLink = {
@@ -11,18 +12,29 @@ type NavLink = {
   children?: { label: string; href: string }[];
 };
 
+// A top-level nav item is active when the current path is, or is nested under,
+// its href. Home ("/") only matches exactly so it isn't active everywhere.
+function isActive(pathname: string, href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function DropdownMenu({ items }: { items: { label: string; href: string }[] }) {
   return (
-    <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-gray-100 rounded-lg shadow-xl py-2 z-50">
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#1B3A6B] hover:text-white transition-colors duration-150"
-        >
-          {item.label}
-        </Link>
-      ))}
+    // pt-2 creates an invisible bridge so the mouse doesn't leave the parent
+    // when moving from the trigger into the dropdown panel
+    <div className="absolute top-full left-0 pt-2 w-56 z-50">
+      <div className="bg-white border border-gray-100 rounded-lg shadow-xl py-2">
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#1B3A6B] hover:text-white transition-colors duration-150"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
@@ -33,6 +45,19 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  // Delay timer ref — prevents the dropdown from closing during the mouse
+  // transition from the nav link into the dropdown panel
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openMenu = useCallback((label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenDropdown(label);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 120);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -50,6 +75,17 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Clean up timer on unmount
+  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
+
+  // Close the mobile menu and any open dropdown whenever the route changes,
+  // so the menu doesn't stay open on top of the newly navigated page.
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenDropdown(null);
+    setMobileExpanded(null);
+  }, [pathname]);
 
   return (
     <>
@@ -70,59 +106,70 @@ export default function Navbar() {
       <nav
         ref={navRef}
         className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-          scrolled ? 'shadow-lg bg-[#1B3A6B]' : 'bg-[#1B3A6B]'
-        }`}
+          scrolled ? 'shadow-lg' : ''
+        } bg-[#1B3A6B]`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-          {/* Logo / Brand */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center shrink-0">
+
+          {/* Logo — fixed-width rectangle, no circle crop */}
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <div className="relative h-9 w-9 bg-white rounded-md overflow-hidden flex items-center justify-center">
               <Image
                 src="/images/logo-textprimary.png"
                 alt="Tagore Logo"
                 fill
-                className="object-contain p-0.5"
-                sizes="40px"
+                className="object-contain p-1"
+                sizes="36px"
               />
             </div>
-            <div>
-              <div className="text-white font-bold text-base leading-tight">
+            <div className="leading-none">
+              <div className="text-white font-bold text-sm leading-tight">
                 Tagore Educational
               </div>
-              <div className="text-[#D4AF37] text-xs font-sans tracking-wide uppercase">
+              <div className="text-[#D4AF37] text-[10px] font-sans tracking-widest uppercase mt-0.5">
                 Institutions
               </div>
             </div>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-0.5">
             {(NAV_LINKS as NavLink[]).map((link) => (
               <div
                 key={link.href}
                 className="relative"
-                onMouseEnter={() => link.children && setOpenDropdown(link.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                onMouseEnter={() => link.children ? openMenu(link.label) : closeMenu()}
+                onMouseLeave={closeMenu}
               >
                 <Link
                   href={link.href}
-                  className="flex items-center gap-1 px-3 py-2 text-white text-sm font-sans font-medium rounded hover:text-[#D4AF37] transition-colors duration-150"
+                  className={`flex items-center gap-1 px-3 py-2 text-sm font-sans font-medium rounded transition-colors duration-150 whitespace-nowrap ${
+                    isActive(pathname, link.href)
+                      ? 'text-[#D4AF37]'
+                      : 'text-white hover:text-[#D4AF37]'
+                  }`}
                 >
                   {link.label}
                   {link.children && (
-                    <svg className="w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className={`w-3 h-3 opacity-70 transition-transform duration-200 ${openDropdown === link.label ? 'rotate-180' : ''}`}
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   )}
                 </Link>
                 {link.children && openDropdown === link.label && (
-                  <DropdownMenu items={link.children} />
+                  // Cancel close timer when mouse enters dropdown panel
+                  <div onMouseEnter={() => openMenu(link.label)} onMouseLeave={closeMenu}>
+                    <DropdownMenu items={link.children} />
+                  </div>
                 )}
               </div>
             ))}
             <Link
               href="/admissions"
-              className="ml-3 px-4 py-2 bg-[#D4AF37] text-[#1B3A6B] text-sm font-bold font-sans rounded hover:bg-[#E8CC6A] transition-colors duration-150"
+              className="ml-3 px-4 py-2 bg-[#D4AF37] text-[#1B3A6B] text-sm font-bold font-sans rounded hover:bg-[#E8CC6A] transition-colors duration-150 whitespace-nowrap"
             >
               Apply Now
             </Link>
@@ -152,7 +199,9 @@ export default function Navbar() {
                 <div className="flex items-center justify-between">
                   <Link
                     href={link.href}
-                    className="block py-2 text-white font-sans text-sm font-medium hover:text-[#D4AF37]"
+                    className={`block py-2 font-sans text-sm font-medium ${
+                      isActive(pathname, link.href) ? 'text-[#D4AF37]' : 'text-white hover:text-[#D4AF37]'
+                    }`}
                     onClick={() => !link.children && setMobileOpen(false)}
                   >
                     {link.label}

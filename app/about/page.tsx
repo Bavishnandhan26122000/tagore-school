@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { SITE, TAGORE_ACRONYM } from '@/lib/data';
 
@@ -27,6 +28,16 @@ export default function AboutPage() {
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12">
           <div className="md:col-span-2">
+            <div className="relative w-full h-56 sm:h-72 rounded-2xl overflow-hidden mb-8 bg-gray-100 shadow-sm">
+              <Image
+                src="/images/home/welcome-1.jpg"
+                alt="Tagore Educational Institutions campus"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 66vw"
+                priority
+              />
+            </div>
             <h2 className="text-2xl font-bold text-[#1B3A6B] mb-6 gold-underline">Our Story</h2>
             <div className="space-y-4 text-gray-600 font-sans leading-relaxed">
               <p>

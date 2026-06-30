@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE, INSTITUTIONS } from '@/lib/data';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = { title: 'Contact Us' };
 
@@ -89,73 +90,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div>
             <h2 className="text-2xl font-bold text-[#1B3A6B] mb-8 gold-underline">Send Us a Message</h2>
-            <form className="space-y-5">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-sans font-medium text-gray-700 mb-1.5">Full Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your full name"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] focus:border-transparent transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-sans font-medium text-gray-700 mb-1.5">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="+91 XXXXX XXXXX"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] focus:border-transparent transition-all"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-sans font-medium text-gray-700 mb-1.5">Email Address *</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="your@email.com"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] focus:border-transparent transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-sans font-medium text-gray-700 mb-1.5">Enquiry Regarding</label>
-                <select
-                  name="institution"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg font-sans text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] focus:border-transparent transition-all bg-white"
-                >
-                  <option value="">Select an institution</option>
-                  {INSTITUTIONS.map((inst) => (
-                    <option key={inst.id} value={inst.id}>{inst.shortName}</option>
-                  ))}
-                  <option value="general">General Enquiry</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-sans font-medium text-gray-700 mb-1.5">Message *</label>
-                <textarea
-                  name="message"
-                  rows={5}
-                  placeholder="Your message or enquiry..."
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] focus:border-transparent transition-all resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-[#1B3A6B] text-white font-bold font-sans rounded hover:bg-[#2451A0] transition-colors duration-200"
-              >
-                Send Message
-              </button>
-
-              <p className="text-gray-400 font-sans text-xs text-center">
-                We typically respond within 1–2 business days.
-              </p>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>

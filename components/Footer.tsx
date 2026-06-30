@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { SITE, INSTITUTIONS, NAV_LINKS } from '@/lib/data';
 
@@ -11,8 +12,14 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center text-[#1B3A6B] font-bold text-lg">
-              T
+            <div className="relative h-10 w-10 bg-white rounded-md overflow-hidden flex items-center justify-center shrink-0">
+              <Image
+                src="/images/logo-textprimary.png"
+                alt="Tagore Logo"
+                fill
+                className="object-contain p-1"
+                sizes="40px"
+              />
             </div>
             <div>
               <div className="font-bold text-base leading-tight">Tagore Educational</div>
